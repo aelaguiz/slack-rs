@@ -283,3 +283,16 @@ Plan doc (SSOT): `docs/TERMINAL_DRIVEN_RUST_SLACK_TUI_WITH_VIM_KEYBINDINGS_2026-
   - None.
 - Next steps:
   - Cut the initial git commit on `feat/tui-skeleton` and proceed to manual acceptance (non-blocking per plan).
+
+## Phase 2 (Workspace Resize Wiring) Progress Update
+- Work completed:
+  - Wired pane resize through `Action` + config + keymap + reducer (so it works in both interactive TUI and headless scripts) (`src/app/action.rs`, `src/app/config.rs`, `src/input/keymap.rs`, `src/app/reducer.rs`, `config.example.toml`).
+  - Added a deterministic test that asserts resize changes pane geometry via the layout renderer (`tests/workspace_resize.rs`).
+- Tests run + results:
+  - `cargo fmt --all` — pass
+  - `cargo test -q` — pass
+  - `cargo clippy -q -- -D warnings` — pass
+- Issues / deviations:
+  - None.
+- Next steps:
+  - Commit + push the resize wiring fix; then proceed with the manual acceptance checklist (non-blocking per plan).

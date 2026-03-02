@@ -41,6 +41,11 @@ split_vertical = ["Ctrl+w v"]
 split_horizontal = ["Ctrl+w s"]
 close_pane = ["Ctrl+w q"]
 
+resize_vertical_minus = ["Ctrl+w ,"]
+resize_vertical_plus = ["Ctrl+w ."]
+resize_horizontal_minus = ["Ctrl+w -"]
+resize_horizontal_plus = ["Ctrl+w ="]
+
 focus_left = ["Ctrl+w h"]
 focus_down = ["Ctrl+w j"]
 focus_up = ["Ctrl+w k"]

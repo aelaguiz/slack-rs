@@ -9,6 +9,8 @@ use crate::workspace::ops::{self, FocusDir};
 use crate::workspace::tree::PaneKind;
 use crate::workspace::tree::SplitAxis;
 
+const RESIZE_DELTA: f32 = 0.05;
+
 #[derive(Debug, Default)]
 pub struct ReduceOutcome {
     pub should_quit: bool,
@@ -95,6 +97,22 @@ pub fn apply_action(state: &mut AppState, action: Action) -> anyhow::Result<Redu
         Action::SplitHorizontal => {
             let new_id = ops::split_focused(&mut state.workspace, SplitAxis::Horizontal);
             state.pane_views.entry(new_id).or_default();
+            state.focus_area = crate::input::keymap::FocusArea::Workspace;
+        }
+        Action::ResizeVerticalPlus => {
+            ops::resize_focused(&mut state.workspace, SplitAxis::Vertical, RESIZE_DELTA);
+            state.focus_area = crate::input::keymap::FocusArea::Workspace;
+        }
+        Action::ResizeVerticalMinus => {
+            ops::resize_focused(&mut state.workspace, SplitAxis::Vertical, -RESIZE_DELTA);
+            state.focus_area = crate::input::keymap::FocusArea::Workspace;
+        }
+        Action::ResizeHorizontalPlus => {
+            ops::resize_focused(&mut state.workspace, SplitAxis::Horizontal, RESIZE_DELTA);
+            state.focus_area = crate::input::keymap::FocusArea::Workspace;
+        }
+        Action::ResizeHorizontalMinus => {
+            ops::resize_focused(&mut state.workspace, SplitAxis::Horizontal, -RESIZE_DELTA);
             state.focus_area = crate::input::keymap::FocusArea::Workspace;
         }
         Action::FocusLeft => {

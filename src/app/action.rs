@@ -19,6 +19,11 @@ pub enum Action {
     FocusRight,
     ClosePane,
 
+    ResizeVerticalPlus,
+    ResizeVerticalMinus,
+    ResizeHorizontalPlus,
+    ResizeHorizontalMinus,
+
     SidebarRefresh,
     SidebarSelectNext,
     SidebarSelectPrev,

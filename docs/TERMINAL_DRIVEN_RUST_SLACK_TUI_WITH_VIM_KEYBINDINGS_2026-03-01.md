@@ -39,10 +39,10 @@ Verdict (code): COMPLETE
 Manual QA: pending (non-blocking)
 
 ## Code blockers (why code isn’t done)
-- None known (remaining work is manual acceptance pass + any polish it reveals).
+- None known.
 
 ## Reopened phases (false-complete fixes)
-- None (audit did not find any `[x]` plan items that are outright unshipped in code).
+- None.
 
 ## Missing items (code gaps; evidence-anchored; no tables)
 - None known.
@@ -51,19 +51,19 @@ Manual QA: pending (non-blocking)
 - Manual: open a known channel/DM, send a message from another Slack client, confirm it appears in `slack-rs` within seconds (Socket Mode → reducer).
 - Manual: use `Ctrl+u` to paginate older history several times and confirm message count increases until no further cursor/older pages remain.
 - Manual: `Tab` to focus the workspace and use `j/k` (and `gg/G`) to move the selected message highlight in the focused timeline pane.
+- Manual: split into 2 panes, then use the resize bindings to confirm the focused pane grows/shrinks (defaults in `config.example.toml`).
 
 ## External second opinions
 - Opus: received
   - Key points:
-    - `has_more` + `next_cursor` are redundant SSOT and can diverge later (`src/app/timeline.rs`, `src/app/reducer.rs`). (Fixed: cursor is now the only pagination SSOT.)
-    - Headless mode can’t validate real-time Socket Mode updates end-to-end today (`src/app/headless.rs` vs `src/slack/socket_mode.rs`). (Fixed: `slack_socket_mode_listen` now exists.)
-    - Slack HTTP calls have no explicit timeout (hang risk in headless) (`src/app/headless.rs`, `src/slack/service.rs`). (Fixed: effect/auth timeouts are now enforced.)
-  - Disposition: accepted — these were real gaps/drift at the time of review; all three are now addressed in code.
+    - Verified: pane resize is reachable via Action → config → keymap dispatch → reducer (`src/app/action.rs`, `src/app/config.rs`, `src/input/keymap.rs`, `src/app/reducer.rs`).
+    - Verified: programmatic test proves resize changes geometry via deterministic layout rects (`tests/workspace_resize.rs`).
+  - Disposition: accepted — wiring is complete and idiomatic.
 - Gemini: received
   - Key points:
-    - “No Slack I/O on render path” boundary is enforced (Slack I/O via effects; UI draws from state) (`src/app/app.rs`, `src/ui/*`, `src/app/effects.rs`).
-    - Service-layer caches hide some state from `AppState` (`src/slack/service.rs`).
-  - Disposition: mixed — boundary confirmation accepted; cache placement is acceptable for now but should be revisited if it blocks automation observability.
+    - Verified: resize is wired end-to-end (actions/config/keymap/reducer) and usable from both sidebar/workspace focus maps (`src/input/keymap.rs`).
+    - Verified: tests assert pane width/height changes, preventing silent no-ops (`tests/workspace_resize.rs`).
+  - Disposition: accepted — implementation matches the plan.
 <!-- arch_skill:block:implementation_audit:end -->
 
 ---
@@ -1101,6 +1101,16 @@ last_updated: 2026-03-02
     - Verification (smallest signal): update `config.toml` binding → behavior changes
     - Exit criteria: keymap is SSOT for behavior.
     - Rollback: revert commit.
+  - [x] P2.T10 — Wire pane resize into keymap + reducer (automation-visible)
+    - File anchors: `src/app/action.rs`, `src/app/config.rs`, `src/input/keymap.rs`, `config.example.toml`, `src/app/reducer.rs`, `src/workspace/ops.rs`
+    - Steps:
+      - Add explicit resize actions (horizontal/vertical +/-).
+      - Add configurable keybinds + defaults (keep them Vim-ish and conflict-free).
+      - Apply resize via `workspace::ops::resize_focused` in the reducer so behavior is shared between TUI + headless.
+      - Add/extend a unit/integration test that asserts ratios actually change (no silent no-op), e.g. via deterministic layout rect sizes.
+    - Verification (smallest signal): `cargo test -q` (workspace resize + reducer wiring)
+    - Exit criteria: resize works via keybindings and is provably exercised by a programmatic test.
+    - Rollback: revert commit.
 * Verification (smallest signal):
   * `cargo test` runs and includes `tests/workspace_tree.rs` (pure, fast).
   * Manual: split/close/resize/focus works exactly as expected; no key leakage into the wrong pane.
@@ -1347,7 +1357,7 @@ last_updated: 2026-03-02
     - Verification (smallest signal): `cargo test -q` (renderer unit tests) + manual: typical Slack messages are readable (not JSON dumps)
     - Exit criteria: reading is useful for real work.
     - Rollback: revert commit.
-  - [ ] P4.T6 — Delete/cleanup: remove any debug JSON rendering paths
+  - [x] P4.T6 — Delete/cleanup: remove any debug JSON rendering paths
     - File anchors: `src/ui/workspace.rs`, `src/render/*`
     - Steps:
       - Ensure the UI always renders via the renderer module (single path).

@@ -40,6 +40,11 @@ pub struct KeybindsConfig {
     pub split_horizontal: Option<Vec<String>>,
     pub close_pane: Option<Vec<String>>,
 
+    pub resize_vertical_plus: Option<Vec<String>>,
+    pub resize_vertical_minus: Option<Vec<String>>,
+    pub resize_horizontal_plus: Option<Vec<String>>,
+    pub resize_horizontal_minus: Option<Vec<String>>,
+
     pub focus_left: Option<Vec<String>>,
     pub focus_down: Option<Vec<String>>,
     pub focus_up: Option<Vec<String>>,

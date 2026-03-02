@@ -172,6 +172,39 @@ fn build_normal_sidebar_keybinds(config: &AppConfig) -> anyhow::Result<Keybinds<
     bind_all(
         &mut keybinds,
         &mut seen,
+        kb.resize_vertical_minus.as_ref(),
+        &["Ctrl+w ,"],
+        Action::ResizeVerticalMinus,
+        "config.keybinds.resize_vertical_minus",
+    )?;
+    bind_all(
+        &mut keybinds,
+        &mut seen,
+        kb.resize_vertical_plus.as_ref(),
+        &["Ctrl+w ."],
+        Action::ResizeVerticalPlus,
+        "config.keybinds.resize_vertical_plus",
+    )?;
+    bind_all(
+        &mut keybinds,
+        &mut seen,
+        kb.resize_horizontal_minus.as_ref(),
+        &["Ctrl+w -"],
+        Action::ResizeHorizontalMinus,
+        "config.keybinds.resize_horizontal_minus",
+    )?;
+    bind_all(
+        &mut keybinds,
+        &mut seen,
+        kb.resize_horizontal_plus.as_ref(),
+        &["Ctrl+w ="],
+        Action::ResizeHorizontalPlus,
+        "config.keybinds.resize_horizontal_plus",
+    )?;
+
+    bind_all(
+        &mut keybinds,
+        &mut seen,
         kb.focus_left.as_ref(),
         &["Ctrl+w h"],
         Action::FocusLeft,
@@ -349,6 +382,39 @@ fn build_normal_workspace_keybinds(config: &AppConfig) -> anyhow::Result<Keybind
         &["Ctrl+w q"],
         Action::ClosePane,
         "config.keybinds.close_pane",
+    )?;
+
+    bind_all(
+        &mut keybinds,
+        &mut seen,
+        kb.resize_vertical_minus.as_ref(),
+        &["Ctrl+w ,"],
+        Action::ResizeVerticalMinus,
+        "config.keybinds.resize_vertical_minus",
+    )?;
+    bind_all(
+        &mut keybinds,
+        &mut seen,
+        kb.resize_vertical_plus.as_ref(),
+        &["Ctrl+w ."],
+        Action::ResizeVerticalPlus,
+        "config.keybinds.resize_vertical_plus",
+    )?;
+    bind_all(
+        &mut keybinds,
+        &mut seen,
+        kb.resize_horizontal_minus.as_ref(),
+        &["Ctrl+w -"],
+        Action::ResizeHorizontalMinus,
+        "config.keybinds.resize_horizontal_minus",
+    )?;
+    bind_all(
+        &mut keybinds,
+        &mut seen,
+        kb.resize_horizontal_plus.as_ref(),
+        &["Ctrl+w ="],
+        Action::ResizeHorizontalPlus,
+        "config.keybinds.resize_horizontal_plus",
     )?;
 
     bind_all(
