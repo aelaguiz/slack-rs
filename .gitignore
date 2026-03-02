@@ -1,0 +1,11 @@
+target/
+.DS_Store
+
+# Local config / secrets (never commit)
+.env
+*.swp
+config.toml
+config.local.toml
+
+# Logs
+*.log

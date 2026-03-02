@@ -1,0 +1,47 @@
+# Copy to `config.toml` (local dev) or to the OS config dir used by
+# `directories::ProjectDirs` (see `src/app/config.rs` for the exact resolution logic).
+#
+# Notes:
+# - Any field can be omitted to use defaults.
+# - Set a field to `[]` to disable bindings for that action.
+# - `Ctrl+c` is always reserved as an emergency quit (even if you disable `quit`).
+#
+# Secrets / tokens:
+# - Tokens are NOT part of this config shape.
+# - Use environment variables (usually loaded from a local `.env`):
+#     APP_TOKEN="xapp-..."
+#     BOT_TOKEN="xoxb-..."
+
+[keybinds]
+quit = ["q"]
+
+toggle_focus_area = ["Tab"]
+
+sidebar_refresh = ["r"]
+sidebar_up = ["k"]
+sidebar_down = ["j"]
+sidebar_open = ["Enter"]
+
+timeline_load_older = ["Ctrl+u"]
+timeline_up = ["k"]
+timeline_down = ["j"]
+timeline_top = ["g g"]
+timeline_bottom = ["G"]
+open_thread = ["Enter"]
+reaction = ["r"]
+file_upload = ["f u"]
+file_download = ["f d"]
+
+enter_compose = ["i"]
+
+composer_send = ["Enter"]
+composer_newline = ["Shift+Enter"]
+
+split_vertical = ["Ctrl+w v"]
+split_horizontal = ["Ctrl+w s"]
+close_pane = ["Ctrl+w q"]
+
+focus_left = ["Ctrl+w h"]
+focus_down = ["Ctrl+w j"]
+focus_up = ["Ctrl+w k"]
+focus_right = ["Ctrl+w l"]
